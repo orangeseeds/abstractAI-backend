@@ -4,14 +4,21 @@ from pydantic import BaseModel, Field, EmailStr
 
 
 class SummaryRequestSchema(BaseModel):
-    request: str
-    domain: str | None = None
-    createdAt: datetime | None = None
+    request: str = Field(...)
+    domain: str | None = Field(...)
+    createdAt: datetime | None = Field(...)
 
     class Config:
         orm_mode = True
         allow_population_by_field_name = True
         arbitrary_types_allowed = True
+        schema_extra = {
+            "example": {
+                "request": "request text",
+                "domain": "localhost",
+                "createdAt": "2023-05-10T12:33:30.724Z",
+            }
+        }
 
 
 class SummaryBaseSchema(BaseModel):
@@ -46,7 +53,7 @@ class UserSchema(BaseModel):
             "example": {
                 "user_name": "Abdulazeez Abdulazeez Adeshina",
                 "email": "abdulazeez@x.com",
-                "password": "weakpassword"
+                "password": "weakpassword",
             }
         }
 
@@ -59,6 +66,6 @@ class UserLoginSchema(BaseModel):
         schema_extra = {
             "example": {
                 "email": "abdulazeez@x.com",
-                "password": "weakpassword"
+                "password": "weakpassword",
             }
         }

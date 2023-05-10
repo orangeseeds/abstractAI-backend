@@ -5,9 +5,13 @@ from sqlalchemy.orm import sessionmaker
 SQLITE_DATABASE_URL = "sqlite:///./note.db"
 
 engine = create_engine(
-    SQLITE_DATABASE_URL, echo=True, connect_args={"check_same_thread": False}
+    SQLITE_DATABASE_URL,
+    echo=True,
+    connect_args={"check_same_thread": False},
 )
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+SessionLocal = sessionmaker(
+    autocommit=False, autoflush=False, bind=engine
+)
 
 Base = declarative_base()
 

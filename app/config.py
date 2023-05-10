@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     POSTGRES_HOSTNAME: str
 
     class Config:
-        env_file = './.env'
+        env_file = "./.env"
 
 
 settings = Settings()

@@ -1,4 +1,5 @@
-from app import models, summary
+from app import models
+from app.api import summary, user
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .database import engine
@@ -20,7 +21,10 @@ app.add_middleware(
 )
 
 
-app.include_router(summary.router, tags=['Summaries'], prefix='/api/summary')
+app.include_router(
+    summary.router, tags=["Summaries"], prefix="/api/summary"
+)
+app.include_router(user.router, tags=["Users"], prefix="/api/user")
 
 
 @app.get("/api/healthchecker")
