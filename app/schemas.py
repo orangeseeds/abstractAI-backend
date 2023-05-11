@@ -6,7 +6,6 @@ from pydantic import BaseModel, Field, EmailStr
 class SummaryRequestSchema(BaseModel):
     request: str = Field(...)
     domain: str | None = Field(...)
-    createdAt: datetime | None = Field(...)
 
     class Config:
         orm_mode = True
@@ -16,7 +15,6 @@ class SummaryRequestSchema(BaseModel):
             "example": {
                 "request": "request text",
                 "domain": "localhost",
-                "createdAt": "2023-05-10T12:33:30.724Z",
             }
         }
 

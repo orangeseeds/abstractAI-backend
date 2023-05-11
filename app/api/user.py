@@ -3,11 +3,13 @@ from sqlalchemy.orm import Session
 from fastapi import Depends, HTTPException, status, APIRouter
 from app.database import get_db
 from app.auth.auth_handler import signJWT
+from app.auth.auth_bearer import JWTBearer
+from app.auth.auth_bearer import get_auth_user
 
 router = APIRouter()
 
 
-@router.post("/user/signup")
+@router.post("/signup")
 async def create_user(
     payload: schemas.UserSchema, db: Session = Depends(get_db)
 ):
@@ -19,7 +21,7 @@ async def create_user(
     return {"status": "success", "jwt": signJWT(str(new_user.id))}
 
 
-@router.post("/user/login")
+@router.post("/login")
 async def user_login(
     payload: schemas.UserLoginSchema, db: Session = Depends(get_db)
 ):
@@ -44,3 +46,15 @@ async def user_login(
         "status": "success",
         "jwt": signJWT(str(db_user.id)),
     }
+
+
+@router.post(
+    "/refresh",
+    status_code=status.HTTP_201_CREATED,
+    dependencies=[Depends(JWTBearer())],
+)
+def refresh_token(
+    db: Session = Depends(get_db),
+    user_id: str = Depends(get_auth_user),
+):
+    return {"status": "success", "jwt": signJWT(user_id)}

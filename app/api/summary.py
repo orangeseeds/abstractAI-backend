@@ -15,10 +15,7 @@ from app.ml.model import summarize_text
 router = APIRouter()
 
 
-@router.get(
-    "/",
-    dependencies=[Depends(JWTBearer())]
-)
+@router.get("/", dependencies=[Depends(JWTBearer())])
 def get_summaries(
     db: Session = Depends(get_db),
     limit: int = 10,
@@ -30,6 +27,7 @@ def get_summaries(
     domain_summaries = (
         db.query(models.Summary)
         .filter(models.Summary.domain == domain)
+        .order_by(models.Summary.createdAt.desc())
         .limit(limit)
         .offset(skip)
         .all()
@@ -61,10 +59,7 @@ def generate_summary(
     return {"status": "success", "summary": new_summary}
 
 
-@router.patch(
-        "/{summaryId}",
-        dependencies=[Depends(JWTBearer())]
-)
+@router.patch("/{summaryId}", dependencies=[Depends(JWTBearer())])
 def update_summary(
     summaryId: str,
     payload: schemas.SummaryBaseSchema,
