@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field, EmailStr
 
 class SummaryRequestSchema(BaseModel):
     request: str = Field(...)
-    domain: str | None = Field(...)
+    domain: str = Field(...)
 
     class Config:
         orm_mode = True
